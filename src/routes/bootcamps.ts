@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Router } from 'express'
 import {
   getBootcamps,
   getBootcamp,
@@ -7,7 +7,7 @@ import {
   deleteBootcamps,
 } from '../controllers/bootcamps'
 
-const bootcampsRouter = express.Router()
+const bootcampsRouter: Router = express.Router()
 
 bootcampsRouter.route('/').get(getBootcamps).post(createBootcamp)
 

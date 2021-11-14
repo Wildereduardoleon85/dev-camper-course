@@ -4,10 +4,10 @@ import { Request, Response, NextFunction } from 'express'
 //@route      GET /api/v1/bootcamps
 //@access     Public
 export const getBootcamps = (
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
-) => {
+  _next: NextFunction
+): void => {
   res.status(200).json({ success: true, msg: 'Show all bootcamps' })
 }
 
@@ -17,7 +17,7 @@ export const getBootcamps = (
 export const getBootcamp = (
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   res.status(200).json({ success: true, msg: `Get bootcamp ${req.params.id}` })
 }
@@ -26,9 +26,9 @@ export const getBootcamp = (
 //@route      POST /api/v1/bootcamps
 //@access     Private
 export const createBootcamp = (
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   res.status(200).json({ success: true, msg: 'Create new bootcamp' })
 }
@@ -39,7 +39,7 @@ export const createBootcamp = (
 export const updateBootcamps = (
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   res
     .status(200)
@@ -52,7 +52,7 @@ export const updateBootcamps = (
 export const deleteBootcamps = (
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   res
     .status(200)
