@@ -1,12 +1,12 @@
 {
-  "type": "module",
-  "name": "dev-camper",
+  "name": "dev-camper-with-ts",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "dev camper project course",
+  "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server",
-    "dev": "nodemon server"
+    "start": "cross-env NODE_ENV=production node dist/server",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc -p ."
   },
   "author": "Wilder León",
   "license": "ISC",
@@ -16,6 +16,10 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.11.7",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   }
 }

@@ -5,7 +5,7 @@ import {
   createBootcamp,
   updateBootcamps,
   deleteBootcamps,
-} from '../controllers/bootcamps.js'
+} from '../controllers/bootcamps'
 
 const bootcampsRouter = express.Router()
 
