@@ -1,29 +1,11 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import bootcampsRouter from './routes/bootcamps.js'
 
 dotenv.config()
 const app = express()
 
-app.get('/api/v1/bootcamps', (req, res)=> {
-    res.status(200).json({success: true, msg: 'Show all bootcamps'})
-})
-
-app.get('/api/v1/bootcamps/:id', (req, res)=> {
-    res.status(200).json({success: true, msg: `Get bootcamp ${req.params.id}`})
-})
-
-app.post('/api/v1/bootcamps', (req, res)=> {
-    res.status(200).json({success: true, msg: 'Create new bootcamp'})
-})
-
-app.put('/api/v1/bootcamps/:id', (req, res)=> {
-    res.status(200).json({success: true, msg: `Update bootcamp ${req.params.id}`})
-})
-
-app.delete('/api/v1/bootcamps/:id', (req, res)=> {
-    res.status(200).json({success: true, msg: `Delete bootcamp ${req.params.id}`})
-})
-
+app.use('/api/v1/bootcamps', bootcampsRouter)
 
 const port = process.env.PORT || 5000
 
