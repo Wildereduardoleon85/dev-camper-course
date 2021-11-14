@@ -1,12 +1,15 @@
 import express, { Application } from 'express'
 import dotenv from 'dotenv'
 import bootcampsRouter from './routes/bootcamps'
-import { logger } from './middlewares/logger'
+import morgan from 'morgan'
 
 dotenv.config()
 const app: Application = express()
 
-app.use(logger)
+// Dev loggin middleware
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 app.use('/api/v1/bootcamps', bootcampsRouter)
 
