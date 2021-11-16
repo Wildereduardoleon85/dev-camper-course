@@ -40,11 +40,9 @@ const BootcampSchema = new Schema<BootcampSchema>({
   location: {
     type: String,
     enum: ['Point'],
-    required: true,
   },
   coordinates: {
     type: Number,
-    required: true,
     index: '2dsphere',
   },
   formatedAddress: String,
@@ -60,7 +58,7 @@ const BootcampSchema = new Schema<BootcampSchema>({
       'Mobile Development',
       'UI/UX',
       'Data Science',
-      'Bussiness',
+      'Business',
       'Other',
     ],
   },

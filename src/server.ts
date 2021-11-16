@@ -5,9 +5,16 @@ import morgan from 'morgan'
 import 'colorts/lib/string'
 import connectDB from './config/db'
 
+// Enviroment Variables
 dotenv.config()
+
+// Application Initialization
 const app: Application = express()
 
+// Body Parser
+app.use(express.json())
+
+// Database Connection
 connectDB()
 
 // Dev loggin middleware
@@ -15,6 +22,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
+// Routes
 app.use('/api/v1/bootcamps', bootcampsRouter)
 
 const port: number | string = process.env.PORT || 5000
@@ -27,7 +35,7 @@ const server = app.listen(port, () =>
 )
 
 // handle unhandled promise rejections
-process.on('unhandledRejection', (error: any, promise: any) => {
+process.on('unhandledRejection', (error: any) => {
   console.log(`Error: ${error.message}`.red)
   // close server & exit process
   server.close(() => process.exit(1))
