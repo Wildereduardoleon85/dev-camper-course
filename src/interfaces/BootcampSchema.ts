@@ -1,4 +1,7 @@
+import { Types } from 'mongoose'
+
 export interface BootcampSchema {
+  _id?: Types.ObjectId
   name: string
   slug: string
   description: string
@@ -22,4 +25,5 @@ export interface BootcampSchema {
   jobGuarantee: boolean
   acceptGi: boolean
   createdAt: number
+  __v?: number
 }

@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/color": "^3.0.2",
+    "@types/mongodb": "^4.0.7",
     "@types/morgan": "^1.9.3",
     "colorts": "^0.1.63",
     "cross-env": "^7.0.3",

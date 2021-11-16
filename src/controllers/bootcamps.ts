@@ -1,21 +1,57 @@
 import { Request, Response, NextFunction } from 'express'
-import { BootcampSchema } from '../interfaces/BootcampSchema'
-import { BootcampSuccesfullResponse } from '../interfaces/BootcampSuccesfullResponse'
+import { BootcampSuccesfulResponse } from '../interfaces/BootcampSuccesfulResponse'
 import { ErrorResponse } from '../interfaces/ErrorResponse'
 import { BootcampSchemaModel } from '../models/Bootcamp'
+
+const errorResponse = (err: any): ErrorResponse => {
+  return {
+    success: false,
+    msg: err,
+  }
+}
 
 //@desc       Get all bootcamps
 //@route      GET /api/v1/bootcamps
 //@access     Public
-export const getBootcamps = (_req: Request, res: Response): void => {
-  res.status(200).json({ success: true, msg: 'Show all bootcamps' })
+export const getBootcamps = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const bootcamps = await BootcampSchemaModel.find()
+    const response: BootcampSuccesfulResponse = {
+      success: true,
+      data: bootcamps,
+    }
+    res.status(200).json(response)
+  } catch (err: any) {
+    res.status(500).json(errorResponse(err.message))
+  }
 }
 
 //@desc       Get single bootcamps
 //@route      GET /api/v1/bootcamps/:id
 //@access     Public
-export const getBootcamp = (req: Request, res: Response) => {
-  res.status(200).json({ success: true, msg: `Get bootcamp ${req.params.id}` })
+export const getBootcamp = async (
+  req: Request,
+  res: Response
+): Promise<void | Response<any, Record<string, any>>> => {
+  try {
+    const bootcamp = await BootcampSchemaModel.findById(req.params.id)
+    if (!bootcamp) {
+      return res.status(400).json({
+        success: false,
+        msg: `Cast to ObjectId failed for value \"${req.params.id}\" (type string) at path \"_id\" for model \"Bootcamp\"`,
+      })
+    }
+    const response: BootcampSuccesfulResponse = {
+      success: true,
+      data: bootcamp,
+    }
+    res.status(200).json(response)
+  } catch (err: any) {
+    res.status(500).json(errorResponse(err.message))
+  }
 }
 
 //@desc       Create a bootcamp
@@ -27,17 +63,13 @@ export const createBootcamp = async (
 ): Promise<void> => {
   try {
     const bootcamp = await BootcampSchemaModel.create(req.body)
-    const response: BootcampSuccesfullResponse = {
+    const response: BootcampSuccesfulResponse = {
       success: true,
       data: bootcamp,
     }
     res.status(201).json(response)
   } catch (err: any) {
-    const errorResponse: ErrorResponse = {
-      success: false,
-      msg: err.message,
-    }
-    res.status(400).json(errorResponse)
+    res.status(400).json(errorResponse(err.message))
   }
 }
 

@@ -20,3 +20,11 @@ Content-Type: application/json
     "jobGuarantee": true,
     "acceptGi": true
 }
+
+
+### Get Bootcamps
+GET http://localhost:5000/api/v1/bootcamps
+
+
+### Get Single Bootcamp
+GET http://localhost:5000/api/v1/bootcamps/6192f39f11beb9cbd574f034
