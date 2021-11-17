@@ -34,7 +34,8 @@ export const getBootcamps = async (
 //@access     Public
 export const getBootcamp = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void | Response<any, Record<string, any>>> => {
   try {
     const bootcamp = await BootcampSchemaModel.findById(req.params.id)
@@ -50,7 +51,7 @@ export const getBootcamp = async (
     }
     res.status(200).json(response)
   } catch (err: any) {
-    res.status(500).json(errorResponse(err.message))
+    next(err)
   }
 }
 

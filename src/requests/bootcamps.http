@@ -3,7 +3,7 @@ POST http://localhost:5000/api/v1/bootcamps
 Content-Type: application/json
 
 {
-   "name": "Devcentral Bootcamp",
+    "name": "Devcentral Bootcamp",
     "description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in front end and full stack web development",
     "website": "https://devcentral.com",
     "phone": "(444) 444-4444",

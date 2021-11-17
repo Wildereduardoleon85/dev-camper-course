@@ -4,6 +4,7 @@ import bootcampsRouter from './routes/bootcamps'
 import morgan from 'morgan'
 import 'colorts/lib/string'
 import connectDB from './config/db'
+import errorHandler from './middlewares/error'
 
 // Enviroment Variables
 dotenv.config()
@@ -11,11 +12,11 @@ dotenv.config()
 // Application Initialization
 const app: Application = express()
 
-// Body Parser
-app.use(express.json())
-
 // Database Connection
 connectDB()
+
+// Body Parser
+app.use(express.json())
 
 // Dev loggin middleware
 if (process.env.NODE_ENV === 'development') {
@@ -24,6 +25,9 @@ if (process.env.NODE_ENV === 'development') {
 
 // Routes
 app.use('/api/v1/bootcamps', bootcampsRouter)
+
+// Error Middleware
+app.use(errorHandler)
 
 const port: number | string = process.env.PORT || 5000
 
