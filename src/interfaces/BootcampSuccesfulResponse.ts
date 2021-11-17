@@ -1,11 +1,11 @@
-import { BootcampSchema } from './BootcampSchema'
+import { Bootcamp } from './Bootcamp'
 import { Types } from 'mongoose'
 
 export interface BootcampSuccesfulResponse {
   success: boolean
   data:
-    | (BootcampSchema & {
+    | (Bootcamp & {
         _id: Types.ObjectId | undefined
       })
-    | BootcampSchema[]
+    | Bootcamp[]
 }

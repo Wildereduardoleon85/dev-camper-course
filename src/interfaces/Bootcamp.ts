@@ -1,4 +1,4 @@
-export interface BootcampSchema {
+export interface Bootcamp {
   name: string
   slug: string
   description: string

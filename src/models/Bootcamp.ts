@@ -1,7 +1,9 @@
+import { NextFunction } from 'express'
 import { Schema, model } from 'mongoose'
-import { BootcampSchema } from '../interfaces/BootcampSchema'
+import { Bootcamp } from '../interfaces/Bootcamp'
+import slugify from '../utils/slugify'
 
-const BootcampSchema = new Schema<BootcampSchema>({
+const BootcampSchema = new Schema<Bootcamp>({
   name: {
     type: String,
     required: [true, 'Please add a name'],
@@ -94,7 +96,10 @@ const BootcampSchema = new Schema<BootcampSchema>({
   },
 })
 
-export const BootcampSchemaModel = model<BootcampSchema>(
-  'Bootcamp',
-  BootcampSchema
-)
+// Create Bootcamp slug for name
+// BootcampSchema.pre('save', function (next: NextFunction) {
+//   this.slug = slugify(this.name)
+//   next()
+// })
+
+export const BootcampSchemaModel = model<Bootcamp>('Bootcamp', BootcampSchema)
