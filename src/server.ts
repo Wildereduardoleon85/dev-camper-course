@@ -5,7 +5,6 @@ import morgan from 'morgan'
 import 'colorts/lib/string'
 import connectDB from './config/db'
 import errorHandler from './middlewares/error'
-import geocoder from './utils/geocoder'
 
 // Enviroment Variables
 dotenv.config()

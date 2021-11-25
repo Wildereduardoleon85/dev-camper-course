@@ -3,6 +3,7 @@ import { BootcampSuccesfulResponse } from '../interfaces/BootcampSuccesfulRespon
 import ErrorResponse from '../utils/errorResponse'
 import { BootcampSchemaModel } from '../models/Bootcamp'
 import asyncHandler from '../middlewares/asyncHandler'
+import geocoder from '../utils/geocoder'
 
 //@desc       Get all bootcamps
 //@route      GET /api/v1/bootcamps
@@ -12,6 +13,7 @@ export const getBootcamps = asyncHandler(
     const bootcamps = await BootcampSchemaModel.find()
     const response: BootcampSuccesfulResponse = {
       success: true,
+      count: bootcamps.length,
       data: bootcamps,
     }
     res.status(200).json(response)
@@ -72,12 +74,47 @@ export const updateBootcamps = (
 //@desc       Delete bootcamp
 //@route      DELETE /api/v1/bootcamps/:id
 //@access     Private
-export const deleteBootcamps = (
-  req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Delete bootcamp ${req.params.id}` })
-}
+export const deleteBootcamps = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { id } = req.params
+    const bootcamp = await BootcampSchemaModel.findByIdAndDelete(id)
+    if (!bootcamp) {
+      return next(new ErrorResponse(`Bootcamp not found with id of ${id}`, 404))
+    }
+    const response: BootcampSuccesfulResponse = {
+      success: true,
+    }
+    res.status(200).json(response)
+  }
+)
+
+//@desc       Get Bootcamps within a radius
+//@route      GET /api/v1/bootcamps/radius/:zipcode/:distance/
+//@access     Private
+export const getBootcampsInRadius = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const { zipcode, distance } = req.params
+
+    // Get lat an long from geocoder
+    const loc = await geocoder.geocode(zipcode)
+    const lat = loc[0].latitude
+    const lon = loc[0].longitude
+
+    // Calc radius
+    // Divide distance by radius of earth
+    // Earth radius = 3963 mi / 6378 Km
+    const radius: number = Number(distance) / 3963
+
+    const bootcamps = await BootcampSchemaModel.find({
+      location: { $geoWithin: { $centerSphere: [[lon, lat], radius] } },
+    })
+
+    const response: BootcampSuccesfulResponse = {
+      success: true,
+      count: bootcamps.length,
+      data: bootcamps,
+    }
+
+    res.status(200).json(response)
+  }
+)

@@ -1,5 +1,5 @@
 ### Create a bootcamp
-POST http://localhost:5000/api/v1/bootcamps
+POST {{baseUrl}}/api/v1/bootcamps
 Content-Type: application/json
 
 {
@@ -20,8 +20,16 @@ Content-Type: application/json
 
 
 ### Get Bootcamps
-GET http://localhost:5000/api/v1/bootcamps
+GET {{baseUrl}}/api/v1/bootcamps
 
 
 ### Get Single Bootcamp
-GET http://localhost:5000/api/v1/bootcamps/6192f39f11beb9cbd574f034
+GET {{baseUrl}}/api/v1/bootcamps/6192f39f11beb9cbd574f034
+
+
+### Delete Bootcamp by Id
+DELETE {{baseUrl}}/api/v1/bootcamps/5d713a66ec8f2b88b8f830b8
+
+
+### Get Bootcamps in Radius
+GET {{baseUrl}}/api/v1/bootcamps/radius/90210/200

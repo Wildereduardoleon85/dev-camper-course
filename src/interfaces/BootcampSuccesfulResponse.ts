@@ -3,7 +3,8 @@ import { Types } from 'mongoose'
 
 export interface BootcampSuccesfulResponse {
   success: boolean
-  data:
+  count?: number
+  data?:
     | (Bootcamp & {
         _id: Types.ObjectId | undefined
       })
