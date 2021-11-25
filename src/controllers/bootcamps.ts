@@ -3,7 +3,6 @@ import { BootcampSuccesfulResponse } from '../interfaces/BootcampSuccesfulRespon
 import ErrorResponse from '../utils/errorResponse'
 import { BootcampSchemaModel } from '../models/Bootcamp'
 import asyncHandler from '../middlewares/asyncHandler'
-import slugify from '../utils/slugify'
 
 //@desc       Get all bootcamps
 //@route      GET /api/v1/bootcamps
@@ -48,11 +47,7 @@ export const getBootcamp = asyncHandler(
 //@access     Private
 export const createBootcamp = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    const slug = slugify(req.body.name)
-    let body = req.body
-    body.slug = slug
-
-    const bootcamp = await BootcampSchemaModel.create(body)
+    const bootcamp = await BootcampSchemaModel.create(req.body)
     const response: BootcampSuccesfulResponse = {
       success: true,
       data: bootcamp,

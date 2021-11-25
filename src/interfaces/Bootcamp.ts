@@ -6,13 +6,19 @@ export interface Bootcamp {
   phone: string
   email: string
   address: string
-  location: string
-  coordinates: number
-  formatedAddress: string
-  street: string
-  city: string
-  zipcode: string
-  country: string
+  location: {
+    type: {
+      type: 'Point'
+    }
+    coordinates: {
+      type: number
+    }
+    formatedAddress: string
+    street: string
+    city: string
+    zipcode: string
+    country: string
+  }
   careers: string[]
   averageRating: number
   averageCost: number

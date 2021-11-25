@@ -6,6 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node dist/server",
     "dev": "nodemon src/server.ts",
+    "seeder:import": "tsc -p . & node dist/seeder/import.js",
+    "seeder:delete": "tsc -p . & node dist/seeder/delete.js",
     "build": "tsc -p ."
   },
   "author": "Wilder León",
@@ -14,12 +16,14 @@
     "@types/color": "^3.0.2",
     "@types/mongodb": "^4.0.7",
     "@types/morgan": "^1.9.3",
+    "@types/node-geocoder": "^3.24.3",
     "colorts": "^0.1.63",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.12",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-geocoder": "^3.27.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

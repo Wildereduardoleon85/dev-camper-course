@@ -1,6 +1,6 @@
-import { NextFunction } from 'express'
 import { Schema, model } from 'mongoose'
 import { Bootcamp } from '../interfaces/Bootcamp'
+import geocoder from '../utils/geocoder'
 import slugify from '../utils/slugify'
 
 const BootcampSchema = new Schema<Bootcamp>({
@@ -40,18 +40,20 @@ const BootcampSchema = new Schema<Bootcamp>({
     required: [true, 'Please add an address'],
   },
   location: {
-    type: String,
-    enum: ['Point'],
+    type: {
+      type: String,
+      enum: ['Point'],
+    },
+    coordinates: {
+      type: Number,
+      index: '2dsphere',
+    },
+    formatedAddress: String,
+    street: String,
+    city: String,
+    zipcode: String,
+    country: String,
   },
-  coordinates: {
-    type: Number,
-    index: '2dsphere',
-  },
-  formatedAddress: String,
-  street: String,
-  city: String,
-  zipcode: String,
-  country: String,
   careers: {
     type: [String],
     required: true,
@@ -96,10 +98,29 @@ const BootcampSchema = new Schema<Bootcamp>({
   },
 })
 
-// Create Bootcamp slug for name
-// BootcampSchema.pre('save', function (next: NextFunction) {
-//   this.slug = slugify(this.name)
-//   next()
-// })
+// Slugify
+BootcampSchema.pre('save', function (next) {
+  this.slug = slugify(this.name)
+  next()
+})
+
+// Geocode and create location field
+BootcampSchema.pre('save', async function (next) {
+  const loc = await geocoder.geocode(this.address)
+  this.location = {
+    type: 'Point',
+    coordinates: [loc[0].longitude, loc[0].latitude],
+    formatedAddress: loc[0].formattedAddress,
+    street: loc[0].streetName,
+    city: loc[0].city,
+    state: loc[0].stateCode,
+    zipcode: loc[0].zipcode,
+    country: loc[0].countryCode,
+  }
+
+  // Do not save adress in DB
+  this.address = undefined
+  next()
+})
 
 export const BootcampSchemaModel = model<Bootcamp>('Bootcamp', BootcampSchema)
