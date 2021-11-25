@@ -4,13 +4,45 @@ import ErrorResponse from '../utils/errorResponse'
 import { BootcampSchemaModel } from '../models/Bootcamp'
 import asyncHandler from '../middlewares/asyncHandler'
 import geocoder from '../utils/geocoder'
+import { doesNotMatch } from 'assert'
 
 //@desc       Get all bootcamps
 //@route      GET /api/v1/bootcamps
 //@access     Public
 export const getBootcamps = asyncHandler(
-  async (_req: Request, res: Response): Promise<void> => {
-    const bootcamps = await BootcampSchemaModel.find()
+  async (req: Request, res: Response): Promise<void> => {
+    const { select, sort } = req.query
+
+    let query
+    const reqQuery = { ...req.query }
+
+    // Fileds to exclude
+    const removeFileds = ['select']
+
+    // Loop over remove fields and delete them from reqQuery
+    removeFileds.forEach((param) => delete reqQuery[param])
+
+    let qs = JSON.stringify(reqQuery)
+    qs = qs.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`)
+    query = BootcampSchemaModel.find(JSON.parse(qs))
+
+    const cleanQuery = (fields: string): string => {
+      return fields.split(',').join(' ')
+    }
+
+    // Select fields
+    if (select) {
+      query = query.select(cleanQuery(<string>select))
+    }
+
+    if (sort) {
+      query = query.sort(cleanQuery(<string>sort))
+    } else {
+      query = query.sort('-createdAt')
+    }
+
+    const bootcamps = await query
+
     const response: BootcampSuccesfulResponse = {
       success: true,
       count: bootcamps.length,

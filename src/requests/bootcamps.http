@@ -20,7 +20,7 @@ Content-Type: application/json
 
 
 ### Get Bootcamps
-GET {{baseUrl}}/api/v1/bootcamps
+GET {{baseUrl}}/api/v1/bootcamps?select=name,description,averageCost&averageCost[lte]=10000
 
 
 ### Get Single Bootcamp
