@@ -18,7 +18,7 @@ const bootcamps: Bootcamp[] = JSON.parse(
 
 const importData = async (): Promise<void> => {
   try {
-    await BootcampSchemaModel.insertMany(bootcamps)
+    await BootcampSchemaModel.create(bootcamps)
     console.log('Data imported...'.green.inverse)
   } catch (error) {
     console.error(error)
